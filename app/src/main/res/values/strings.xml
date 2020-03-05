@@ -52,11 +52,15 @@
 
     //General Alerts
     <string name="alert_welcome_title">Te damos la bienvenida </string>
+    <string name="alert_login_title">Sesión iniciada</string>
     <string name="alert_generic_title">Alerta</string>
     <string name="alert_ok">Ok</string>
     <string name="connect">Conectar</string>
+    <string name="get_in">Entrar</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_maps2">Map</string>
+    <string name="general_name">Usuario</string>
+
 
 
 </resources>

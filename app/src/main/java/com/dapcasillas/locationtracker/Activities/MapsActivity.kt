@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
@@ -32,6 +33,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var db: FirebaseFirestore
     lateinit var sharedPreferences: SharedPreferences
     lateinit var email : String
+    lateinit var type : String
+
 
 
     // 1
@@ -72,7 +75,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     fun initViews(){
 
         email = sharedPreferences.getString(getString(R.string.pref_email),"") ?: ""
-
+        type = sharedPreferences.getString(getString(R.string.type_field),"") ?: ""
 
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MapsActivity)
@@ -82,23 +85,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                Toast.makeText(this@MapsActivity, lastLocation.longitude.toString(),
-                    Toast.LENGTH_SHORT
-                ).show()
 
-                // Update an existing document
-                val docRef = db.collection(getString(R.string.collections_users)).document(email)
+                if(type.equals(R.string.user))
+                    FireBaseData().updateUserLocation(this@MapsActivity, lastLocation, email)
 
-                // (async) Update one field
-                val geopunto = GeoPoint(lastLocation.latitude, lastLocation.longitude)
-                val update = docRef.update(getString(R.string.location_field), geopunto)
-
-                //val result = update.getResult()
-                Toast.makeText(this@MapsActivity, "updated",
-                    Toast.LENGTH_SHORT
-                ).show()
-                    //System.out.println("Write result: " + result);
-                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
             }
         }
 

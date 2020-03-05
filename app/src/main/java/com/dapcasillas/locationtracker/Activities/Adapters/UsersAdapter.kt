@@ -1,6 +1,7 @@
 package com.dapcasillas.locationtracker.Activities.Adapters
 
 import android.content.Context
+import android.location.Location
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,18 +10,21 @@ import android.widget.Filterable
 import com.dapcasillas.locationtracker.Data.User
 import com.dapcasillas.locationtracker.R
 import kotlinx.android.synthetic.main.row_user.view.*
-import java.util.ArrayList
 
-class UsersAdapter  (private var context: Context, var rowLayout: Int, var  usersList: MutableList<User>) : androidx.recyclerview.widget.RecyclerView.Adapter<UsersAdapter.ViewHolder>(),
+
+
+class UsersAdapter  (private var context: Context, var rowLayout: Int, var  usersList: MutableList<User>, lastlocation: Location) : androidx.recyclerview.widget.RecyclerView.Adapter<UsersAdapter.ViewHolder>(),
 
     Filterable {
     private var usersListFiltered: MutableList<User>? = null
 
     lateinit var itemClickListener: OnItemClickListener
+    lateinit var lastlocation: Location
 
 
     init {
         this.usersListFiltered = usersList
+        this.lastlocation = lastlocation
 
     }
 
@@ -41,10 +45,16 @@ class UsersAdapter  (private var context: Context, var rowLayout: Int, var  user
         try {
 
             val locations = user.location?.latitude.toString() + ", " + user.location?.longitude.toString()
+            val userLocation = Location("")
+            userLocation.latitude = user.location?.latitude ?: 0.0
+            userLocation.longitude = user.location?.longitude ?: 0.0
+            val distanceTo = context.getString(R.string.distance) + ": "+ lastlocation.distanceTo(userLocation).toString() + " metros"
+
+
             holder.itemView.tv_name.setText(user.name)
             holder.itemView.tv_email.setText(user.email)
             holder.itemView.tv_location.setText(locations)
-            holder.itemView.tv_distance.setText("Distancia")//user.name)
+            holder.itemView.tv_distance.setText(distanceTo)
 
         } catch (e: Exception) {
             e.printStackTrace()

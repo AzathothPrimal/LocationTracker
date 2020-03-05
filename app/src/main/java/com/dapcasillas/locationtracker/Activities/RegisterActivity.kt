@@ -18,6 +18,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.Utilities.CreateDocumentsUtil
 import com.dapcasillas.locationtracker.Utilities.MaterialDialogUtil
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -166,8 +167,7 @@ class RegisterActivity : AppCompatActivity() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
 
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
+            accessApp()
 
         } else {
 
@@ -211,8 +211,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (grantResults.size > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED
                 ) {
-                    val intent = Intent(this, MapsActivity::class.java)
-                    startActivity(intent)
+                    accessApp()
 
                 } else {
 
@@ -238,6 +237,33 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 
+    fun accessApp(){
+
+
+        FireBaseData().getUser(this@RegisterActivity, et_email.text.toString()){
+            val name = it.name.toString()
+
+            val editor = sharedPreferences.edit()
+            editor.putString(getString(R.string.pref_email), et_email.text.toString())
+            editor.putString(getString(R.string.type_field), it.type.toString())
+            editor.apply()
+
+            var intent = Intent(this, UsersListActivity::class.java)
+            if(it.type.equals(getString(R.string.user))){
+                intent = Intent(this, MapsActivity::class.java)
+            }
+
+            val alertWelcome = getString(R.string.alert_welcome_title) + " "+ name
+
+            MaterialDialogUtil().ShowCenterIntentMaterialDialog(this@RegisterActivity,
+                intent,
+                getString(R.string.alert_login_title),
+                alertWelcome,
+                getString(R.string.get_in))
+
+        }
+
+    }
 
 
 }

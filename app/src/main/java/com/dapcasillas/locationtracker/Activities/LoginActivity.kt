@@ -10,6 +10,7 @@ import android.widget.EditText
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
+import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.R
 import com.dapcasillas.locationtracker.Utilities.ConnectivityUtil
 import com.dapcasillas.locationtracker.Utilities.MaterialDialogUtil
@@ -82,33 +83,37 @@ class LoginActivity : AppCompatActivity() {
                     this
                 ) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+
                         val user = mAuth?.getCurrentUser()
                         if (user != null) {
-                            // Name, email address, and profile photo Url
-                            val name = user.displayName
+
+                            var name = getString(R.string.general_name)
                             val email = user.email
-                            val photoUrl = user.photoUrl
 
-                            // Check if user's email is verified
-                            val emailVerified = user.isEmailVerified
+                            var intent = Intent(this, UsersListActivity::class.java)
+                            FireBaseData().getUser(this@LoginActivity, email?:""){
+                                name = it.name.toString()
 
-                            // The user's ID, unique to the Firebase project. Do NOT use this value to
-                            // authenticate with your backend server, if you have one. Use
-                            // FirebaseUser.getIdToken() instead.
-                            val uid = user.uid
-                            Toast.makeText(
-                                this@LoginActivity, "Authentication Succesfull " + email,
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            val editor = sharedPreferences.edit()
-                            editor.putString(getString(R.string.pref_email), email)
-                            editor.apply()
+                                val editor = sharedPreferences.edit()
+                                editor.putString(getString(R.string.pref_email), email)
+                                editor.putString(getString(R.string.type_field), it.type.toString())
+                                editor.apply()
 
-                            val intent = Intent(this, UsersListActivity::class.java)
-                            startActivity(intent)
+                                if(it.type.equals(getString(R.string.user))){
+                                    intent = Intent(this, MapsActivity::class.java)
+                                }
+
+                                val alertWelcome = getString(R.string.alert_welcome_title) + " "+ name
+
+                                MaterialDialogUtil().ShowCenterIntentMaterialDialog(this@LoginActivity,
+                                    intent,
+                                    getString(R.string.alert_login_title),
+                                    alertWelcome,
+                                    getString(R.string.get_in))
+
+                            }
+
                         }
-
 
                     } else {
                         // If sign in fails, display a message to the user.
