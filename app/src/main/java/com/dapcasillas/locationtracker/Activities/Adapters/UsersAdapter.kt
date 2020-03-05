@@ -9,6 +9,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import com.dapcasillas.locationtracker.Data.User
 import com.dapcasillas.locationtracker.R
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.row_user.view.*
 
 
@@ -67,10 +68,10 @@ class UsersAdapter  (private var context: Context, var rowLayout: Int, var  user
             itemView.placeCardUser.setOnClickListener(this)
         }
 
-        override fun onClick(view: View) = itemClickListener.onItemClick(itemView)//,
-//            usersList[position].idSitioWeb,
-//            usersList[position].idUsuario,
-//            usersList[position].sitioWeb)
+        override fun onClick(view: View) = itemClickListener.onItemClick(itemView,
+            usersList[position].name,
+            usersList[position].email,
+            usersList[position].location)
 
 
 
@@ -78,7 +79,7 @@ class UsersAdapter  (private var context: Context, var rowLayout: Int, var  user
 
 
     interface OnItemClickListener {
-        fun onItemClick(view: View)//, idSitioWeb: Int?, idUsuario: Int?, sitioWeb: String?)
+        fun onItemClick(view: View, name: String?, email: String?, location: GeoPoint?)
     }
 
     fun setOnItemClickListener(itemClickListener: OnItemClickListener) {

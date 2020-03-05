@@ -7,13 +7,11 @@ import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,7 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
+import com.google.android.gms.maps.model.MarkerOptions
+
+
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener  {
@@ -34,6 +34,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var sharedPreferences: SharedPreferences
     lateinit var email : String
     lateinit var type : String
+
+
+    var userName : String = "UserName"
+    var userEmail : String = "userEmail"
+    lateinit var userLocation : Location
+    lateinit var supervisorLocation : Location
+
 
 
 
@@ -57,6 +64,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         setContentView(R.layout.activity_maps)
         db = FirebaseFirestore.getInstance()
         sharedPreferences = getSharedPreferences(getString(R.string.shared_pref), Context.MODE_PRIVATE)
+
+        try {
+            userName = intent.getStringExtra(getString(R.string.name_field))
+            userEmail = intent.getStringExtra(getString(R.string.email_field))
+            userLocation = Location("UserLocastions")
+            supervisorLocation = Location("SupervisorLocation")
+            userLocation.latitude = intent.getDoubleExtra(getString(R.string.latitude_field), 0.0)
+            userLocation.longitude = intent.getDoubleExtra(getString(R.string.longitude_field), 0.0)
+            supervisorLocation.latitude = intent.getDoubleExtra(getString(R.string.supervisor_latitude), 0.0)
+            supervisorLocation.longitude = intent.getDoubleExtra(getString(R.string.supervisor_longitude), 0.0)
+
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -85,7 +106,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-
+                supervisorLocation = lastLocation
                 if(type.equals(R.string.user))
                     FireBaseData().updateUserLocation(this@MapsActivity, lastLocation, email)
 
@@ -103,6 +124,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.getUiSettings().setZoomControlsEnabled(true)
         mMap.setOnMarkerClickListener(this)
+
+
+        val userMarkerTitle = userName + "\n" + userEmail
+        val userMarker = LatLng(userLocation.latitude, userLocation.longitude)
+        googleMap.addMarker(
+            MarkerOptions().position(userMarker)
+                .title(userMarkerTitle)
+                .snippet("Distancia: " + supervisorLocation.distanceTo(userLocation).toString() + " metros")
+        )
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(userMarker))
+
     }
 
     private fun setUpMap() {

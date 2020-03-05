@@ -1,6 +1,7 @@
 package com.dapcasillas.locationtracker.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -195,13 +196,18 @@ class UsersListActivity : AppCompatActivity() {
     }
 
     private val onUserClickListener = object : UsersAdapter.OnItemClickListener {
-        override fun onItemClick(view: View){//, idSitioWeb: Int?, idUsuario: Int?, sitioWeb: String?) {
+        override fun onItemClick(view: View, name: String?, email: String?, location: GeoPoint?){
 
-//            val editor = sharedPreferences.edit()
-//            editor.putInt("idSitioWeb",idSitioWeb!!)
-//            editor.putString("sitioWeb", sitioWeb)
-//            editor.apply()
-//            loadFragment(AddUrlFragment())
+            val intent = Intent(this@UsersListActivity, MapsActivity::class.java)
+            intent.putExtra(getString(R.string.name_field), name)
+            intent.putExtra(getString(R.string.email_field), email)
+            intent.putExtra(getString(R.string.latitude_field), location?.latitude)
+            intent.putExtra(getString(R.string.longitude_field), location?.longitude)
+            intent.putExtra(getString(R.string.supervisor_latitude), lastLocation.latitude)
+            intent.putExtra(getString(R.string.supervisor_longitude), lastLocation.longitude)
+
+            startActivity(intent)
+            //finish()
         }
     }
 }

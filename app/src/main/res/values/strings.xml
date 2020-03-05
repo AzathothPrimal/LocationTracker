@@ -14,6 +14,14 @@
     <string name="name_field">name</string>
     <string name="type_field">type</string>
 
+
+    <string name="latitude_field">latitud</string>
+    <string name="longitude_field">logitud</string>
+
+    <string name="supervisor_latitude">supervidor_latitud</string>
+    <string name="supervisor_longitude">supervisor_longitude</string>
+
+
     //StartActivity
     <string name="register">Registrarse</string>
     <string name="singin">Iniciar sesión</string>
