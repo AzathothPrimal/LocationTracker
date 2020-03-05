@@ -1,0 +1,107 @@
+{
+  "project_info": {
+    "project_number": "193517288254",
+    "firebase_url": "https://testing-85ebc.firebaseio.com",
+    "project_id": "testing-85ebc",
+    "storage_bucket": "testing-85ebc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193517288254:android:58f77b164d566d011aca6f",
+        "android_client_info": {
+          "package_name": "com.dapcasillas.locationtracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193517288254-sto72btutc86uia1ho7fht8ohv7d3d3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dapcasillas.locationtracker",
+            "certificate_hash": "6fb452fceaaa7592095febeff5adc3fb0dfdc5f2"
+          }
+        },
+        {
+          "client_id": "193517288254-88u23u6lfrhu26a7kp3nnna52p1hrq6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dapcasillas.locationtracker",
+            "certificate_hash": "a8535714d354be51784c69456b731cd97bc4ba38"
+          }
+        },
+        {
+          "client_id": "193517288254-67ip7nhbgg1nj71ddfaaql9gq0vg17es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIdVZ07aDGxNIqecqDLNl5On3qsynMayg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193517288254-67ip7nhbgg1nj71ddfaaql9gq0vg17es.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193517288254-oam8ib189mvilvv0rhpcb8ecqakoq0ae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.carmonespi.Evertrack"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193517288254:android:fda853871a9f87ab1aca6f",
+        "android_client_info": {
+          "package_name": "com.gmail.dapcasillas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193517288254-oloh0hb7dil77ldvka0n964kdm49ufi6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.dapcasillas",
+            "certificate_hash": "85cd175e1bb4bfa3066439d6fd052395b5387e93"
+          }
+        },
+        {
+          "client_id": "193517288254-67ip7nhbgg1nj71ddfaaql9gq0vg17es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIdVZ07aDGxNIqecqDLNl5On3qsynMayg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193517288254-67ip7nhbgg1nj71ddfaaql9gq0vg17es.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "193517288254-oam8ib189mvilvv0rhpcb8ecqakoq0ae.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gmail.carmonespi.Evertrack"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

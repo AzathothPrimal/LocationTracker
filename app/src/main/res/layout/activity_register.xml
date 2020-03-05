@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_backgorund"
+    tools:context=".Activities.RegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:elevation="20dp"
+            app:cardCornerRadius="4dp"
+
+            android:layout_centerInParent="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAddInfo"
+                    style="@style/TitleStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="@string/register_title"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@+id/imputLayout_type"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/imputLayout_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAddInfo"
+                    android:layout_margin="20dp"
+                    android:hint="@string/type"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:endIconMode="custom"
+                    app:layout_constraintBottom_toTopOf="@+id/imputLayout_name"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddInfo"
+                    tools:layout_editor_absoluteX="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:editable="false"
+                        android:focusable="false"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/imputLayout_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imputLayout_type"
+                    android:layout_margin="20dp"
+                    android:hint="@string/name"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:layout_constraintBottom_toTopOf="@+id/imputLayout_email"
+                    app:layout_constraintTop_toBottomOf="@+id/imputLayout_type"
+                    tools:layout_editor_absoluteX="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_name"
+                        style="@style/EditTextRegularStyle"
+                        android:background="@android:color/transparent"
+                        android:inputType="textEmailAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/imputLayout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:hint="@string/email"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:layout_constraintBottom_toTopOf="@+id/imputLayout_password"
+                    app:layout_constraintTop_toBottomOf="@+id/imputLayout_name"
+                    tools:layout_editor_absoluteX="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_email"
+                        style="@style/EditTextRegularStyle"
+                        android:background="@android:color/transparent"
+                        android:inputType="textEmailAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/imputLayout_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:hint="@string/password"
+                    app:boxBackgroundColor="@android:color/transparent"
+                    app:boxStrokeColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@+id/btn_register"
+                    app:layout_constraintTop_toBottomOf="@+id/imputLayout_email"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTintMode="src_atop"
+                    tools:layout_editor_absoluteX="20dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_password"
+                        style="@style/EditTextRegularStyle"
+                        android:background="@android:color/transparent" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_register"
+                    style="@style/RegularButtonStyle"
+                    android:layout_marginStart="56dp"
+                    android:layout_marginEnd="56dp"
+                    android:text="@string/login"
+                    android:visibility="visible"
+                    app:cornerRadius="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imputLayout_password" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+
+
+</ScrollView>

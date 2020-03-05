@@ -1,0 +1,62 @@
+<resources>
+    <string name="app_name">LocationTracker</string>
+
+    //PREFERENCES
+    <string name="shared_pref">MyPrefs</string>
+    <string name="pref_email">email</string>
+
+    //FirebaseCollectons
+    <string name="collections_users">usuarios</string>
+
+    //User Collection Fields
+    <string name="email_field">email</string>
+    <string name="location_field">location</string>
+    <string name="name_field">name</string>
+    <string name="type_field">type</string>
+
+    //StartActivity
+    <string name="register">Registrarse</string>
+    <string name="singin">Iniciar sesión</string>
+
+    //RegisterActivity
+    <string name="register_title">Ingresa tus datos</string>
+    <string name="name">Nombre</string>
+    <string name="type">Tipo de usuario</string>
+    <string name="validate_register">Por favor ingrese sus datos</string>
+    <string name="user_types">Selecciona tu tipo de usuario</string>
+
+    // PERMISSIONS
+    <string name="alert_ask_permision">Algunos permisos son necesarios para el uso de la App. Para aceptarlos da clic en Aceptar Permisos</string>
+    <string name="alert_ask_again">Algunos permisos necesarios no fueron aprobados. Es necesario que los apruebe para poder usar esta aplicación.</string>
+    <string name="alert_accept_permision">Aceptar Permisos</string>
+
+    //User Types
+    <string name="user">user</string>
+    <string name="supervisor">supervisor</string>
+
+
+    //LoginActivity
+    <string name="email">Correo Electrónico"</string>
+    <string name="password">Contraseña"</string>
+    <string name="login">Entrar</string>
+
+    // Login Validations
+    <string name="validate_login">Por favor ingrese su usuario y contraseña</string>
+
+    //UserListActivity
+    <string name="userlist_title">Usuarios</string>
+    <string name="distance">Distancia</string>
+
+    //No Internet
+    <string name="no_internet">No cuenta con conexión a internet.\nPor favor conéctese a internet e inténtelo nuevamente</string>
+
+    //General Alerts
+    <string name="alert_welcome_title">Te damos la bienvenida </string>
+    <string name="alert_generic_title">Alerta</string>
+    <string name="alert_ok">Ok</string>
+    <string name="connect">Conectar</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps2">Map</string>
+
+
+</resources>

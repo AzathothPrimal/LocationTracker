@@ -1,0 +1,83 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--Text Styles-->
+    <style name="TitleStyle">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="SubtitleStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="RegularStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+
+
+    <!--EditText Styles-->
+    <style name="EditTextRegularStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!--Buttons Styles-->
+    <style name="RegularButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:elevation">45dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+
+    <style name="AlertDialogTheme.Center" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitlePanelStyle">@style/TitlePaneStyleCenter</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/TitleTextStyleCenter</item>
+        <item name="materialAlertDialogTitleIconStyle">@style/TitleIconStyleCenter</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextStyleCenter</item>
+    </style>
+
+    <style name="TitlePaneStyleCenter" parent="MaterialAlertDialog.MaterialComponents.Title.Panel.CenterStacked">
+        <item name="android:background">@drawable/gradient_background</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="TitleIconStyleCenter" parent="MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked">
+
+    </style>
+
+    <style name="TitleTextStyleCenter" parent="MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="BodyTextStyleCenter" parent="MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>
