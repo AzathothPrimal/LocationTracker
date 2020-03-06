@@ -1,30 +1,28 @@
 package com.dapcasillas.locationtracker.Activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.IntentSender
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.R
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
-
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 
-
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener  {
+class SupervisorsMapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener  {
     override fun onMarkerClick(p0: Marker?): Boolean  = false
 
     private lateinit var mMap: GoogleMap
@@ -34,6 +32,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var sharedPreferences: SharedPreferences
     lateinit var email : String
     lateinit var type : String
+    private var UserMarker: Marker? = null
+
+
+    var userName : String = "UserName"
+    var userEmail : String = "userEmail"
+    lateinit var userLocation : Location
+    lateinit var supervisorLocation : Location
+
 
 
 
@@ -48,7 +54,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         // 3
         private const val REQUEST_CHECK_SETTINGS = 2
 
-        private const val PLACE_PICKER_REQUEST = 3
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this@SupervisorsMapsActivity, UsersListActivity::class.java)
+        startActivity(intent)
+        finish()
 
     }
 
@@ -58,10 +70,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         db = FirebaseFirestore.getInstance()
         sharedPreferences = getSharedPreferences(getString(R.string.shared_pref), Context.MODE_PRIVATE)
 
+        try {
+            userName = intent.getStringExtra(getString(R.string.name_field)) ?: ""
+            userEmail = intent.getStringExtra(getString(R.string.email_field)) ?: ""
+            userLocation = Location("UserLocastions")
+            supervisorLocation = Location("SupervisorLocation")
+            userLocation.latitude = intent.getDoubleExtra(getString(R.string.latitude_field), 0.0)
+            userLocation.longitude = intent.getDoubleExtra(getString(R.string.longitude_field), 0.0)
+            supervisorLocation.latitude = intent.getDoubleExtra(getString(R.string.supervisor_latitude), 0.0)
+            supervisorLocation.longitude = intent.getDoubleExtra(getString(R.string.supervisor_longitude), 0.0)
+
+        } catch (ex: Exception){
+            ex.printStackTrace()
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this@MapsActivity)
+        mapFragment.getMapAsync(this@SupervisorsMapsActivity)
 
 
         try {
@@ -72,19 +98,20 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-    fun initViews(){
+    private fun initViews(){
 
         email = sharedPreferences.getString(getString(R.string.pref_email),"") ?: ""
+        type = sharedPreferences.getString(getString(R.string.type_field),"") ?: ""
 
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MapsActivity)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@SupervisorsMapsActivity)
 
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(p0: LocationResult) {
                 super.onLocationResult(p0)
 
                 lastLocation = p0.lastLocation
-                FireBaseData().updateUserLocation(this@MapsActivity, lastLocation, email)
+                supervisorLocation = lastLocation
 
             }
         }
@@ -100,6 +127,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         mMap.getUiSettings().setZoomControlsEnabled(true)
         mMap.setOnMarkerClickListener(this)
+
+
+        val userMarkerTitle = userName + "\n" + userEmail
+        val userMarker = LatLng(userLocation.latitude, userLocation.longitude)
+        mMap.addMarker(
+            MarkerOptions().position(userMarker)
+                .title(userMarkerTitle)
+                .snippet("Distancia: " + supervisorLocation.distanceTo(userLocation).toString() + " metros")
+        )
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(userMarker))
+
     }
 
     private fun setUpMap() {
@@ -121,7 +159,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 //placeMarkerOnMap(currentLatLng)
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
             }
         }
     }
@@ -155,7 +193,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 try {
                     // Show the dialog by calling startResolutionForResult(),
                     // and check the result in onActivityResult().
-                    e.startResolutionForResult(this@MapsActivity,
+                    e.startResolutionForResult(this@SupervisorsMapsActivity,
                         REQUEST_CHECK_SETTINGS
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {

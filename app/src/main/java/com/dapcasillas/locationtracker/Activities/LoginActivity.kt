@@ -3,6 +3,8 @@ package com.dapcasillas.locationtracker.Activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
@@ -10,10 +12,13 @@ import android.widget.EditText
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.dapcasillas.locationtracker.FireBase.FireBaseData
 import com.dapcasillas.locationtracker.R
 import com.dapcasillas.locationtracker.Utilities.ConnectivityUtil
 import com.dapcasillas.locationtracker.Utilities.MaterialDialogUtil
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class LoginActivity : AppCompatActivity() {
@@ -22,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var et_password : EditText
     lateinit var btn_login : MaterialButton
     lateinit var sharedPreferences: SharedPreferences
-
+    val MY_LOCATION = 0
 
     private var mAuth: FirebaseAuth? = null
 
@@ -53,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
     fun setEvents(){
 
         btn_login.setOnClickListener {
+
             validate()
 
         }
@@ -61,7 +67,8 @@ class LoginActivity : AppCompatActivity() {
 
     fun validate(){
         if (!et_user_name.text.toString().isNullOrEmpty() && !et_password.text.toString().isNullOrEmpty()){
-            login()
+
+            askPermissons()
         } else {
             MaterialDialogUtil().ShowCenterTitleMaterialDialog(
                 this,
@@ -136,6 +143,83 @@ class LoginActivity : AppCompatActivity() {
                 getString(R.string.connect)
             )
 
+        }
+    }
+
+
+    fun askPermissons() {
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            login()
+
+        } else {
+
+            val PermissionsNeeded = ArrayList<String>()
+
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            ) {
+
+                PermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+
+            if (!PermissionsNeeded.isEmpty()) {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(getString(R.string.alert_generic_title))
+                    .setMessage(getString(R.string.alert_ask_permision))
+                    .setPositiveButton(getString(R.string.alert_accept_permision)) { dialog, which ->
+                        ActivityCompat.requestPermissions(
+                            this,
+                            PermissionsNeeded.toTypedArray(),
+                            MY_LOCATION
+                        )
+                    }
+                    .setNegativeButton(getString(R.string.alert_ok)) { dialog, which ->
+                    }
+                    .show().setCancelable(false)
+
+            }
+
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            MY_LOCATION -> {
+                if (grantResults.size > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                ) {
+
+                    login()
+                } else {
+
+                    runOnUiThread {
+                        val i = Intent()
+                        i.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                        i.addCategory(Intent.CATEGORY_DEFAULT)
+                        i.data =
+                            Uri.parse("package:" + packageName)
+                        MaterialDialogUtil().ShowCenterNoFIntentMaterialDialog(
+                            this,
+                            i,
+                            getString(R.string.alert_generic_title),
+                            getString(R.string.alert_ask_again),
+                            getString(R.string.connect)
+                        )
+
+                    }
+                }
+                return
+            }
         }
     }
 

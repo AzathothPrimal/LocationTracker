@@ -75,7 +75,7 @@ class UsersListActivity : AppCompatActivity() {
                 FireBaseData().readData(this@UsersListActivity){
                     usersList.clear()
                     usersList = it
-                    initUrlAdapter()
+                    initDataAdapter()
                 }
             }
         }
@@ -139,35 +139,8 @@ class UsersListActivity : AppCompatActivity() {
     }
 
 
-    fun readBase(){
-        db = FirebaseFirestore.getInstance()
-        db.collection(getString(R.string.collections_users))
-            .whereEqualTo("type", "user")
-            .get()
-            .addOnSuccessListener { documents ->
 
-                usersList.clear()
-
-                for (document in documents) {
-                    val geoPoint = document.get(getString(R.string.location_field)) as GeoPoint
-                    usersList.add(User(document.get(getString(R.string.name_field)).toString(),
-                        document.get(getString(R.string.email_field)).toString(),
-                        geoPoint,
-                        document.get(getString(R.string.type_field)).toString()
-                        )
-                    )
-                }
-                initUrlAdapter()
-
-            }
-            .addOnFailureListener { exception ->
-                Toast.makeText(
-                    this,  "Error getting documents: ",  Toast.LENGTH_SHORT
-                ).show()
-            }
-    }
-
-    fun initUrlAdapter(){
+    fun initDataAdapter(){
         try {
             if(usersList.size>0) {
 
@@ -179,15 +152,11 @@ class UsersListActivity : AppCompatActivity() {
                 users_recycler.adapter = usersAdapter
                 usersAdapter.setOnItemClickListener(onUserClickListener)
 
-                //usersAdapter.notifyDataSetChanged()
-                usersAdapter.notifyItemRangeChanged(0, usersAdapter.getItemCount())
-                Toast.makeText(this@UsersListActivity, "List Updated",
-                    Toast.LENGTH_SHORT
-                ).show()
+                usersAdapter.notifyDataSetChanged()
+//                Toast.makeText(this@UsersListActivity, "List Updated",
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
-
-
-
 
         } catch (ex : Exception){
             ex.printStackTrace()
@@ -198,7 +167,7 @@ class UsersListActivity : AppCompatActivity() {
     private val onUserClickListener = object : UsersAdapter.OnItemClickListener {
         override fun onItemClick(view: View, name: String?, email: String?, location: GeoPoint?){
 
-            val intent = Intent(this@UsersListActivity, MapsActivity::class.java)
+            val intent = Intent(this@UsersListActivity, SupervisorsMapsActivity::class.java)
             intent.putExtra(getString(R.string.name_field), name)
             intent.putExtra(getString(R.string.email_field), email)
             intent.putExtra(getString(R.string.latitude_field), location?.latitude)
@@ -207,7 +176,7 @@ class UsersListActivity : AppCompatActivity() {
             intent.putExtra(getString(R.string.supervisor_longitude), lastLocation.longitude)
 
             startActivity(intent)
-            //finish()
+            finish()
         }
     }
 }
